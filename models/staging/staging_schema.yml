@@ -1,0 +1,122 @@
+version: 2
+
+sources:
+  - name: crm
+    database: dbfarmaciasbr
+    schema: crm
+    tables:
+      - name: clientes
+        description: "Tabela contendo informações dos clientes."
+      - name: produtos
+        description: "Tabela contendo informações dos produtos."
+      - name: unidades
+        description: "Tabela contendo informações das unidades."
+      - name: vendedores
+        description: "Tabela contendo informações dos vendedores."
+      - name: vendas
+        description: "Tabela contendo informações das vendas."
+      - name: vendas_vitoria
+        description: "Tabela contendo informações das vendas da unidade Vitória"
+
+models:
+  - name: dim_clientes
+    description: "Modelo que renomeia e transforma dados da tabela de clientes, preparando-os para uso em análises e relatórios."
+    columns:
+      - name: id_cliente
+        description: "Identificador único do cliente."
+        tests:
+          - not_null
+          - unique
+      - name: id_unidade
+        description: "Identificador da unidade onde o cliente está associado."
+        tests:
+          - not_null
+      - name: nome_cliente
+        description: "Nome completo do cliente."
+      - name: endereco_cliente
+        description: "Endereço completo do cliente."
+      - name: telefone_cliente
+        description: "Número de telefone do cliente."
+      - name: email_cliente
+        description: "Endereço de e-mail do cliente."
+      - name: dt_processamento
+        description: "Data e hora em que os dados foram processados e carregados."
+        tests:
+          - not_null
+
+  - name: dim_produtos
+    description: "Modelo que renomeia e transforma dados da tabela de produtos, preparando-os para uso em análises e relatórios."
+    columns:
+      - name: id_produto
+        description: "Identificador único do produto."
+        tests:
+          - not_null
+          - unique
+      - name: nome_produto
+        description: "Nome do produto."
+      - name: preco_produto
+        description: "Preço do produto."
+      - name: dt_processamento
+        description: "Data e hora em que os dados foram processados e carregados."
+        tests:
+          - not_null
+
+  - name: dim_unidades
+    description: "Modelo que renomeia e transforma dados da tabela de unidades, preparando-os para uso em análises e relatórios."
+    columns:
+      - name: id_unidade
+        description: "Identificador único da unidade."
+        tests:
+          - not_null
+          - unique
+      - name: cidade
+        description: "Cidade onde a unidade está localizada."
+      - name: dt_processamento
+        description: "Data e hora em que os dados foram processados e carregados."
+        tests:
+          - not_null
+
+  - name: dim_vendedores
+    description: "Modelo que renomeia e transforma dados da tabela de vendedores, preparando-os para uso em análises e relatórios."
+    columns:
+      - name: id_vendedor
+        description: "Identificador único do vendedor."
+        tests:
+          - not_null
+          - unique
+      - name: nome_vendedor
+        description: "Nome do vendedor."
+      - name: email_vendedor
+        description: "Endereço de e-mail do vendedor."
+      - name: dt_processamento
+        description: "Data e hora em que os dados foram processados e carregados."
+        tests:
+          - not_null
+
+  - name: fact_vendas
+    description: "Modelo que renomeia e transforma dados da tabela de vendas, preparando-os para uso em análises e relatórios."
+    columns:
+      - name: id_venda
+        description: "Identificador único da venda."
+        tests:
+          - not_null
+          - unique
+      - name: id_cliente
+        description: "Identificador do cliente que fez a compra."
+      - name: id_vendedor
+        description: "Identificador do vendedor responsável pela venda."
+      - name: id_unidade
+        description: "Identificador da unidade onde a venda foi realizada."
+      - name: id_produto
+        description: "Identificador do produto vendido."
+      - name: data_venda
+        description: "Data em que a venda foi realizada."
+      - name: quantidade
+        description: "Quantidade de produtos vendidos."
+      - name: dt_processamento
+        description: "Data e hora em que os dados foram processados e carregados."
+        tests:
+          - not_null
+      - name: fonte
+        description: "Fonte de dados de onde os dados foram extraídos."
+  - name: fact_vendas_vitoria
